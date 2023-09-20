@@ -13,19 +13,19 @@ const recipeSchema: Schema<IRecipe> = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: true,
+      required: false,
     },
     ingredients: {
       type: String,
     },
     directions: {
       type: String,
-      required: true,
+      required: false,
     },
     user: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      required: true,
+      required: false,
     },
   },
   { timestamps: true }

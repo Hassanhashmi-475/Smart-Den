@@ -11,7 +11,7 @@ const CategorySchema: Schema<ICategory> = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: true,
+      required: false,
     },
     description: {
       type: String,
@@ -20,7 +20,7 @@ const CategorySchema: Schema<ICategory> = new mongoose.Schema(
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: 'User', 
-      required: true,
+      required: false,
     },
   },
   {

@@ -27,12 +27,18 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.1",
+    "langchain": "^0.0.151",
     "mongoose": "^7.4.4",
+    "node-telegram-bot-api": "^0.63.0",
+    "openai": "^4.8.0",
     "swagger-ui-express": "^5.0.0",
     "ts-node": "^10.9.1",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "zod": "^3.22.2"
   },
   "devDependencies": {
+    "@types/caseless": "^0.12.3",
+    "@types/node-telegram-bot-api": "^0.61.7",
     "pre-commit": "^1.2.2",
     "rimraf": "^5.0.1"
   }

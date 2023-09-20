@@ -8,5 +8,5 @@ Telegram Messaging
 
 Team Members:
 Qazi Maaz (Software Developer)
-Jawad Irshad (Database Management)
-Saad Siddiqure( Macbook Holder)
+Jawad Irshad (Database Manager)
+Saad Siddique( Macbook Holder)

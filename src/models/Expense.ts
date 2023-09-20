@@ -14,25 +14,25 @@ const ExpenseSchema: Schema<IExpense> = new mongoose.Schema(
   {
     description: {
       type: String,
-      required: true,
+      required: false,
     },
     amount: {
       type: Number,
-      required: true,
+      required: false,
     },
     category: {
       type: mongoose.Types.ObjectId,
       ref: 'Category', 
-      required: true,
+      required: false,
     },
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: 'User', 
-      required: true,
+      required: false,
     },
     date: {
       type: Date,
-      required: true,
+      required: false,
     },
   },
   {

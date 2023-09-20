@@ -7,25 +7,25 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const ExpenseSchema = new mongoose_1.default.Schema({
     description: {
         type: String,
-        required: true,
+        required: false,
     },
     amount: {
         type: Number,
-        required: true,
+        required: false,
     },
     category: {
         type: mongoose_1.default.Types.ObjectId,
         ref: 'Category',
-        required: true,
+        required: false,
     },
     createdBy: {
         type: mongoose_1.default.Types.ObjectId,
         ref: 'User',
-        required: true,
+        required: false,
     },
     date: {
         type: Date,
-        required: true,
+        required: false,
     },
 }, {
     timestamps: true,

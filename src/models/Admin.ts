@@ -45,7 +45,7 @@ const adminSchema: Schema<IAdmin> = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: true,
+      required: false,
       unique: true,
       lowercase: true,
     },
@@ -61,7 +61,7 @@ const adminSchema: Schema<IAdmin> = new mongoose.Schema(
     },
     role: {
       type: String,
-      required: true,
+      required: false,
       default: AdminRole.Admin,
       enum: Object.values(AdminRole),
     },

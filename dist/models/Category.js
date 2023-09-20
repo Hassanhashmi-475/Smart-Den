@@ -7,7 +7,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const CategorySchema = new mongoose_1.default.Schema({
     name: {
         type: String,
-        required: true,
+        required: false,
     },
     description: {
         type: String,
@@ -16,7 +16,7 @@ const CategorySchema = new mongoose_1.default.Schema({
     createdBy: {
         type: mongoose_1.default.Types.ObjectId,
         ref: 'User',
-        required: true,
+        required: false,
     },
 }, {
     timestamps: true,

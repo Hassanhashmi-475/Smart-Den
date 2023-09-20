@@ -27,19 +27,19 @@ const mongoose_1 = __importStar(require("mongoose"));
 const recipeSchema = new mongoose_1.default.Schema({
     name: {
         type: String,
-        required: true,
+        required: false,
     },
     ingredients: {
         type: String,
     },
     directions: {
         type: String,
-        required: true,
+        required: false,
     },
     user: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: 'User',
-        required: true,
+        required: false,
     },
 }, { timestamps: true });
 const Recipe = mongoose_1.default.model('Recipe', recipeSchema);

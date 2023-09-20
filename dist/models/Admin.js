@@ -32,7 +32,7 @@ const adminSchema = new mongoose_1.default.Schema({
     },
     email: {
         type: String,
-        required: true,
+        required: false,
         unique: true,
         lowercase: true,
     },
@@ -47,7 +47,7 @@ const adminSchema = new mongoose_1.default.Schema({
     },
     role: {
         type: String,
-        required: true,
+        required: false,
         default: AdminRole.Admin,
         enum: Object.values(AdminRole),
     },

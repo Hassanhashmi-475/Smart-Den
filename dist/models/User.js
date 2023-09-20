@@ -7,7 +7,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const UserSchema = new mongoose_1.default.Schema({
     name: {
         type: String,
-        required: true,
+        required: false,
     },
     image: {
         type: String,
@@ -27,7 +27,7 @@ const UserSchema = new mongoose_1.default.Schema({
     },
     email: {
         type: String,
-        required: true,
+        required: false,
         unique: true,
         lowercase: true,
     },

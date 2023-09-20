@@ -1,23 +1,7 @@
-import mongoose, { Document, Schema } from 'mongoose'
-
-export interface IUser extends Document {
-  name: string
-  image?: string
-  address?: string
-  country?: string
-  city?: string
-  email: string
-  phone?: string
-  password?: string
-  createdAt: Date
-  updatedAt: Date
-}
-
-const UserSchema: Schema<IUser> = new mongoose.Schema(
-  {
+ {
     name: {
-      type: String,
-      required: false,
+        type:String,
+        required:true
     },
     image: {
       type: String,
@@ -37,7 +21,7 @@ const UserSchema: Schema<IUser> = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: false,
+      required: true,
       unique: true,
       lowercase: true,
     },
@@ -45,16 +29,23 @@ const UserSchema: Schema<IUser> = new mongoose.Schema(
       type: String,
       required: false,
     },
+
     password: {
       type: String,
+      required: false,
+      default: bcrypt.hashSync('12345678', 10),
+    },
+    role: {
+      type: String,
+      required: true,
+      default: AdminRole.Admin,
+      enum: Object.values(AdminRole),
+    },
+    joiningDate: {
+      type: Date,
       required: false,
     },
   },
   {
     timestamps: true,
   }
-)
-
-const User = mongoose.model<IUser>('User', UserSchema)
-
-export default User
