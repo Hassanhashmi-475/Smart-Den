@@ -32,7 +32,7 @@ const ReminderSchema = new mongoose_1.default.Schema({
         default: Date.now,
     },
     dueDate: {
-        type: Date,
+        type: String,
     },
 }, {
     timestamps: true,

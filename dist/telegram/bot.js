@@ -29,12 +29,18 @@ function setupTelegramBot() {
         const text = msg.text;
         console.log(msg, '  <=============>');
         try {
+            const currentDate = new Date();
             const response = yield model.call([
-                new schema_1.SystemMessage(`Specify the upcoming events from the data and time of the event? which user have a meeting or anything else or at what time and for what purpose? Make a list. Your output should always be in the following format: ${formatInstructions}`),
+                new schema_1.SystemMessage(`Specify the upcoming events from the data and time of the event? Which user has a meeting or anything else and at what time and for what purpose? Make a list. Your output should always be in the following format: ${formatInstructions}
+
+For example, if the user sends a message like 'We will meet after one week', please extract the due date by considering the current date ${currentDate} and adding one week to it. Include this due date in the list of upcoming events along with the event details.
+
+To extract the due date, you can use JavaScript or a similar programming language to calculate it based on the current date.
+`),
                 new schema_1.HumanMessage(text),
             ]);
             const output = yield parser.parse(response.content);
-            console.log(output.title, ' title output<=============>');
+            console.log(output, '  output<=============>');
             console.log(output.description, ' descriptiontle output<=============>');
             const reminder = new Reminder_1.default({
                 username: msg.from.username,
@@ -43,9 +49,10 @@ function setupTelegramBot() {
                 priority: false,
                 sender: `${msg.from.first_name}  ${msg.from.last_name}`,
                 group: msg.chat.type === 'group' ? true : false,
+                dueDate: output.dueDate
             });
             yield reminder.save();
-            bot.sendMessage(chatId, 'edge cases saved to database successfully');
+            bot.sendMessage(chatId, `Due Date saved to database successfully  ${reminder}`);
         }
         catch (error) {
             console.error(error);
@@ -57,6 +64,9 @@ function setupTelegramBot() {
         }),
         description: zod_1.z.string().refine((val) => typeof val === 'string', {
             message: 'description of the event',
+        }),
+        dueDate: zod_1.z.string().refine((val) => typeof val === 'string', {
+            message: 'due dateof the upcoming event ',
         }),
     }));
     const formatInstructions = parser.getFormatInstructions();

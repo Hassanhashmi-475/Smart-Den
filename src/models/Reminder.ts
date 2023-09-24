@@ -10,7 +10,7 @@ export interface IReminder extends Document {
   priority: boolean
   group: boolean
   createdAt: Date
-  dueDate?: Date
+  dueDate?: string
   tags: string[]
 }
 
@@ -46,7 +46,7 @@ const ReminderSchema: Schema<IReminder> = new mongoose.Schema(
     },
 
     dueDate: {
-      type: Date,
+      type: String,
     },
   },
   {
