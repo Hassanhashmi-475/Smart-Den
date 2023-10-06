@@ -20,6 +20,8 @@ const output_parsers_1 = require("langchain/output_parsers");
 const zod_1 = require("zod");
 const schema_1 = require("langchain/schema");
 const Reminder_1 = __importDefault(require("../models/Reminder"));
+const promptSelector_1 = require("./selectors/promptSelector");
+const console_1 = require("console");
 (0, dotenv_1.config)();
 function setupTelegramBot() {
     const token = '6652658908:AAGbJX0AWZQuJI2GNHqGD0V5v8gollzrjCs';
@@ -29,30 +31,37 @@ function setupTelegramBot() {
         const text = msg.text;
         console.log(msg, '  <=============>');
         try {
+            const isTextEventOrOccasion = yield (0, promptSelector_1.checkTextIntent)(text);
             const currentDate = new Date();
-            const response = yield model.call([
-                new schema_1.SystemMessage(`Specify the upcoming events from the data and time of the event? Which user has a meeting or anything else and at what time and for what purpose? Make a list. Your output should always be in the following format: ${formatInstructions}
+            (0, console_1.log)(isTextEventOrOccasion, '  Event');
+            if (isTextEventOrOccasion) {
+                const response = yield model.call([
+                    new schema_1.SystemMessage(`Specify the upcoming event from the data and time of the event? or place Which user has a meeting(any occasion) or anything else and at what time and for what purpose? Make a list. Your output should always be in the following format: ${formatInstructions}
 
 For example, if the user sends a message like 'We will meet after one week', please extract the due date by considering the current date ${currentDate} and adding one week to it. Include this due date in the list of upcoming events along with the event details.
 
 To extract the due date, you can use JavaScript or a similar programming language to calculate it based on the current date.
 `),
-                new schema_1.HumanMessage(text),
-            ]);
-            const output = yield parser.parse(response.content);
-            console.log(output, '  output<=============>');
-            console.log(output.description, ' descriptiontle output<=============>');
-            const reminder = new Reminder_1.default({
-                username: msg.from.username,
-                title: output.title,
-                description: output.description,
-                priority: false,
-                sender: `${msg.from.first_name}  ${msg.from.last_name}`,
-                group: msg.chat.type === 'group' ? true : false,
-                dueDate: output.dueDate
-            });
-            yield reminder.save();
-            bot.sendMessage(chatId, `Due Date saved to database successfully  ${reminder}`);
+                    new schema_1.HumanMessage(text),
+                ]);
+                const output = yield parser.parse(response.content);
+                console.log(output, '  output<=============>');
+                console.log(output.description, ' descriptiontle output<=============>');
+                const reminder = new Reminder_1.default({
+                    title: output.title,
+                    description: output.description,
+                    priority: false,
+                    sender: `${msg.from.first_name}  ${msg.from.last_name}`,
+                    group: msg.chat.type === 'group' ? true : false,
+                    text: text,
+                    dueDate: output.dueDate,
+                });
+                yield reminder.save();
+                bot.sendMessage(chatId, `Due Date saved to database successfully  ${reminder}`);
+            }
+            else {
+                bot.sendMessage(chatId, `Fazool msg hai bhosri wale mai ni save krrha `);
+            }
         }
         catch (error) {
             console.error(error);
@@ -66,7 +75,7 @@ To extract the due date, you can use JavaScript or a similar programming languag
             message: 'description of the event',
         }),
         dueDate: zod_1.z.string().refine((val) => typeof val === 'string', {
-            message: 'due dateof the upcoming event ',
+            message: 'due date of the upcoming event ',
         }),
     }));
     const formatInstructions = parser.getFormatInstructions();

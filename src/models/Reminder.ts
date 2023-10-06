@@ -1,6 +1,5 @@
 import mongoose, { Document, Schema } from 'mongoose'
 
-
 export interface IReminder extends Document {
   username: string
   text: string
@@ -14,24 +13,22 @@ export interface IReminder extends Document {
   tags: string[]
 }
 
-
 const ReminderSchema: Schema<IReminder> = new mongoose.Schema(
   {
-    username: {
-      type: String,
-    },
-
     sender: {
       type: String,
     },
     title: {
       type: String,
+      unique: true,
     },
     description: {
       type: String,
+      unique: true,
     },
     text: {
       type: String,
+      unique:true
     },
     priority: {
       type: Boolean,

@@ -5,20 +5,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const ReminderSchema = new mongoose_1.default.Schema({
-    username: {
-        type: String,
-    },
     sender: {
         type: String,
     },
     title: {
         type: String,
+        unique: true,
     },
     description: {
         type: String,
+        unique: true,
     },
     text: {
         type: String,
+        unique: true
     },
     priority: {
         type: Boolean,

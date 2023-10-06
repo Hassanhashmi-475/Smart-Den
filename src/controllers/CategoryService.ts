@@ -6,14 +6,14 @@ export async function createCategory(req: Request, res: Response) {
   try {
     const { name, description } = req.body
 
-    const createdBy = req.user
-      ? new mongoose.Types.ObjectId(req.user._id)
-      : undefined
+    // const createdBy = req.user
+    //   ? new mongoose.Types.ObjectId(req.user._id)
+    //   : undefined
 
     const category: ICategory = new Category({
       name,
       description,
-      createdBy,
+      // createdBy,
     })
 
     const savedCategory = await category.save()
@@ -26,11 +26,13 @@ export async function createCategory(req: Request, res: Response) {
 
 export async function getAllCategoriesForUser(req: Request, res: Response) {
   try {
-    const createdBy = req.user
-      ? new mongoose.Types.ObjectId(req.user._id)
-      : undefined
+    // const createdBy = req.user
+    //   ? new mongoose.Types.ObjectId(req.user._id)
+    //   : undefined
 
-    const categories = await Category.find({ createdBy }).populate('createdBy')
+    const categories = await Category.find()
+
+    // .populate('createdBy')
     res.status(200).json(categories)
   } catch (error: any) {
     console.error('Error fetching categories:', error.message)
@@ -41,11 +43,11 @@ export async function getAllCategoriesForUser(req: Request, res: Response) {
 export async function getCategoryByIdForUser(req: Request, res: Response) {
   try {
     const categoryId = req.params.id
-    const createdBy = req.user
-      ? new mongoose.Types.ObjectId(req.user._id)
-      : undefined
+    // const createdBy = req.user
+    //   ? new mongoose.Types.ObjectId(req.user._id)
+    //   : undefined
 
-    const category = await Category.findOne({ _id: categoryId, createdBy })
+    const category = await Category.findOne({ _id: categoryId })
 
     if (!category) {
       res.status(404).json({ error: 'Category not found' })

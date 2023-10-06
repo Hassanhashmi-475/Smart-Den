@@ -18,11 +18,11 @@ const ExpenseSchema = new mongoose_1.default.Schema({
         ref: 'Category',
         required: false,
     },
-    createdBy: {
-        type: mongoose_1.default.Types.ObjectId,
-        ref: 'User',
-        required: false,
-    },
+    // createdBy: {
+    //   type: mongoose.Types.ObjectId,
+    //   ref: 'User', 
+    //   required: false,
+    // },
     date: {
         type: Date,
         required: false,

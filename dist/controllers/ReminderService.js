@@ -32,18 +32,28 @@ function getMostRecentReminder(req, res) {
 exports.getMostRecentReminder = getMostRecentReminder;
 function getListReminder(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        const { offset, limit } = req.query;
+        const pages = Number(offset) || 1;
+        const limits = Number(limit) || 10; // You can set a default limit
         try {
-            const getListReminder = yield Reminder_1.default.find({}).sort({
-                createdAt: -1,
-            });
-            if (!getListReminder) {
+            const totalDoc = yield Reminder_1.default.countDocuments({}); // Get the total count of reminders
+            const getListReminder = yield Reminder_1.default.find({})
+                .sort({ createdAt: -1 })
+                .skip((pages - 1) * limits)
+                .limit(limits);
+            if (!getListReminder || getListReminder.length === 0) {
                 return res.status(404).json({ message: 'No reminders found.' });
             }
-            res.json(getListReminder);
+            res.json({
+                reminders: getListReminder,
+                pages,
+                limits,
+                totalDoc,
+            });
         }
         catch (error) {
-            console.error('Error fetching the most recent reminder:', error.message);
-            res.status(500).json({ error: 'Failed to fetch the most recent reminder.' });
+            console.error('Error fetching the reminders:', error.message);
+            res.status(500).json({ error: 'Failed to fetch reminders.' });
         }
     });
 }
@@ -67,7 +77,9 @@ exports.getSpecificReminder = getSpecificReminder;
 function updatePriority(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const updatedReminder = yield Reminder_1.default.findByIdAndUpdate(req.params.id, { priority: true }, { new: true });
+            const updatedReminder = yield Reminder_1.default.findByIdAndUpdate(req.params.id, req.body, // Assuming req.body contains the updated data
+            { new: true } // This option returns the updated document
+            );
             if (!updatedReminder) {
                 return res.status(404).json({ message: 'Reminder not found.' });
             }
@@ -87,7 +99,7 @@ function deleteReminder(req, res) {
             if (!getSpecificReminder) {
                 return res.status(404).json({ message: 'No reminders found.' });
             }
-            res.json(getSpecificReminder);
+            res.json({ message: "Reminder marked S deleted" });
         }
         catch (error) {
             console.error('Error fetching the most recent reminder:', error.message);

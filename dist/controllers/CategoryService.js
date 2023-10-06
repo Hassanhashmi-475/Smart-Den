@@ -14,18 +14,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteCategoryById = exports.updateCategoryById = exports.getCategoryByIdForUser = exports.getAllCategoriesForUser = exports.createCategory = void 0;
 const Category_1 = __importDefault(require("../models/Category"));
-const mongoose_1 = __importDefault(require("mongoose"));
 function createCategory(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { name, description } = req.body;
-            const createdBy = req.user
-                ? new mongoose_1.default.Types.ObjectId(req.user._id)
-                : undefined;
+            // const createdBy = req.user
+            //   ? new mongoose.Types.ObjectId(req.user._id)
+            //   : undefined
             const category = new Category_1.default({
                 name,
                 description,
-                createdBy,
+                // createdBy,
             });
             const savedCategory = yield category.save();
             res.status(201).json(savedCategory);
@@ -40,10 +39,11 @@ exports.createCategory = createCategory;
 function getAllCategoriesForUser(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const createdBy = req.user
-                ? new mongoose_1.default.Types.ObjectId(req.user._id)
-                : undefined;
-            const categories = yield Category_1.default.find({ createdBy }).populate('createdBy');
+            // const createdBy = req.user
+            //   ? new mongoose.Types.ObjectId(req.user._id)
+            //   : undefined
+            const categories = yield Category_1.default.find();
+            // .populate('createdBy')
             res.status(200).json(categories);
         }
         catch (error) {
@@ -57,10 +57,10 @@ function getCategoryByIdForUser(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const categoryId = req.params.id;
-            const createdBy = req.user
-                ? new mongoose_1.default.Types.ObjectId(req.user._id)
-                : undefined;
-            const category = yield Category_1.default.findOne({ _id: categoryId, createdBy });
+            // const createdBy = req.user
+            //   ? new mongoose.Types.ObjectId(req.user._id)
+            //   : undefined
+            const category = yield Category_1.default.findOne({ _id: categoryId });
             if (!category) {
                 res.status(404).json({ error: 'Category not found' });
                 return;

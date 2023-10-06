@@ -10,11 +10,11 @@ import { isAuth } from '../config/Auth'
 
 const categoryRouter = Router()
 
-categoryRouter.post('/add', isAuth, createCategory)
+categoryRouter.post('/add', createCategory)
 
-categoryRouter.get('/', isAuth, getAllCategoriesForUser)
+categoryRouter.get('/', getAllCategoriesForUser)
 
-categoryRouter.get('/:id', isAuth, getCategoryByIdForUser)
+categoryRouter.get('/:id', getCategoryByIdForUser)
 
 categoryRouter.put('/:id', updateCategoryById)
 

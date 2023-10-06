@@ -25,11 +25,11 @@ const ExpenseSchema: Schema<IExpense> = new mongoose.Schema(
       ref: 'Category', 
       required: false,
     },
-    createdBy: {
-      type: mongoose.Types.ObjectId,
-      ref: 'User', 
-      required: false,
-    },
+    // createdBy: {
+    //   type: mongoose.Types.ObjectId,
+    //   ref: 'User', 
+    //   required: false,
+    // },
     date: {
       type: Date,
       required: false,
