@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMostRecentSalary = exports.getFinanceById = exports.updateFinance = exports.deleteFinance = exports.createFinance = exports.getExpensesOfGivenMonth = exports.getFinanceDocumentsOfGivenMonth = void 0;
+exports.getRecentSalary = exports.getMostRecentSalary = exports.getFinanceById = exports.updateFinance = exports.deleteFinance = exports.createFinance = exports.getExpensesOfGivenMonth = exports.getFinanceDocumentsOfGivenMonth = void 0;
 const console_1 = require("console");
 const Finance_1 = __importDefault(require("../models/Finance"));
 function getMostRecentSalary() {
@@ -32,6 +32,25 @@ function getMostRecentSalary() {
     });
 }
 exports.getMostRecentSalary = getMostRecentSalary;
+function getRecentSalary(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            (0, console_1.log)('time');
+            const mostRecentEntry = yield Finance_1.default.findOne({})
+                .sort({ timestamp: -1 })
+                .select('salary')
+                .lean();
+            (0, console_1.log)('time');
+            (0, console_1.log)(mostRecentEntry.salary);
+            res.status(200).json((mostRecentEntry === null || mostRecentEntry === void 0 ? void 0 : mostRecentEntry.salary) || null);
+        }
+        catch (error) {
+            console.error('Error retrieving most recent salary:', error);
+            return null;
+        }
+    });
+}
+exports.getRecentSalary = getRecentSalary;
 function getFinanceDocumentsOfGivenMonth(req, res) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {

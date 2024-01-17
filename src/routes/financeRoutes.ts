@@ -5,11 +5,14 @@ import {
   getExpensesOfGivenMonth,
   getFinanceById,
   getFinanceDocumentsOfGivenMonth,
-  getMostRecentSalary,
+
+  getRecentSalary,
   updateFinance,
 } from '../controllers/FinancialService'
 
 const financeRouter = Router()
+
+financeRouter.get('/salary', getRecentSalary)
 
 financeRouter.get('/', getFinanceDocumentsOfGivenMonth)
 
@@ -19,7 +22,6 @@ financeRouter.post('/add', createFinance)
 
 financeRouter.patch('/delete/:id', deleteFinance)
 
-financeRouter.get('/salary',getMostRecentSalary)
 
 financeRouter.get('/:id', getFinanceById)
 

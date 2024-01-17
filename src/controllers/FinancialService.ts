@@ -17,6 +17,24 @@ async function getMostRecentSalary(): Promise<number | null> {
   }
 }
 
+async function getRecentSalary(req: Request, res: Response): Promise<void> {
+  try {
+    log('time')
+    const mostRecentEntry: IFinance | null = await Finance.findOne({})
+      .sort({ timestamp: -1 })
+      .select('salary')
+      .lean()
+
+    log('time')
+    log(mostRecentEntry.salary)
+
+    res.status(200).json(mostRecentEntry?.salary || null)
+  } catch (error) {
+    console.error('Error retrieving most recent salary:', error)
+    return null
+  }
+}
+
 async function getFinanceDocumentsOfGivenMonth(
   req: Request,
   res: Response
@@ -246,4 +264,5 @@ export {
   updateFinance,
   getFinanceById,
   getMostRecentSalary,
+  getRecentSalary,
 }
