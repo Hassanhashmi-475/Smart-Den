@@ -11,11 +11,13 @@ import { log } from 'console'
 config()
 
 export function setupTelegramBot() {
-  const token = '6652658908:AAGbJX0AWZQuJI2GNHqGD0V5v8gollzrjCs' 
+  const token = '6652658908:AAGbJX0AWZQuJI2GNHqGD0V5v8gollzrjCs'
 
   // const token = '6909100407:AAEYf41rCCGncAdOwNo5UeYJbg0lF6QEj4E'
 
-  const bot = new TelegramBot(token, { polling: true })
+  const bot = new TelegramBot(token, {
+    polling: { interval: 2000, params: { timeout: 10 } },
+  })
 
   bot.on('message', async (msg: any) => {
     const chatId = msg.chat.id

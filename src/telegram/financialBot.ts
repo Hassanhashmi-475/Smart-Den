@@ -14,7 +14,9 @@ config()
 export async function setupFinancialTelegramBot() {
   const token = '6909100407:AAEYf41rCCGncAdOwNo5UeYJbg0lF6QEj4E'
 
-  const bot = new TelegramBot(token, { polling: true })
+  const bot = new TelegramBot(token, {
+    polling: { interval: 2000, params: { timeout: 10 } },
+  })
 
   bot.on('message', async (msg: any) => {
     const chatId = msg.chat.id
@@ -22,9 +24,9 @@ export async function setupFinancialTelegramBot() {
 
     try {
       const isTextFinancial = await checkTextIntent(text)
-       const recentSalary = await getMostRecentSalary()
-     log(recentSalary, "Salary")
-     
+      const recentSalary = await getMostRecentSalary()
+      log(recentSalary, 'Salary')
+
       log(isTextFinancial, '  Transaction')
       if (isTextFinancial) {
         const response = await model.call([
@@ -48,8 +50,8 @@ export async function setupFinancialTelegramBot() {
 
         const finance = new Finance({
           platform: output.platform,
-          type:output.type,
-          amount:output.amount,
+          type: output.type,
+          amount: output.amount,
           description: output.description,
           salary: output.salary,
           text: text,

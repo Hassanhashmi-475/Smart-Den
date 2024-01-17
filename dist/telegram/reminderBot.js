@@ -26,7 +26,9 @@ const console_1 = require("console");
 function setupTelegramBot() {
     const token = '6652658908:AAGbJX0AWZQuJI2GNHqGD0V5v8gollzrjCs';
     // const token = '6909100407:AAEYf41rCCGncAdOwNo5UeYJbg0lF6QEj4E'
-    const bot = new node_telegram_bot_api_1.default(token, { polling: true });
+    const bot = new node_telegram_bot_api_1.default(token, {
+        polling: { interval: 2000, params: { timeout: 10 } },
+    });
     bot.on('message', (msg) => __awaiter(this, void 0, void 0, function* () {
         const chatId = msg.chat.id;
         const text = msg.text;

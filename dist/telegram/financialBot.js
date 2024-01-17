@@ -27,14 +27,16 @@ const FinancialService_1 = require("../controllers/FinancialService");
 function setupFinancialTelegramBot() {
     return __awaiter(this, void 0, void 0, function* () {
         const token = '6909100407:AAEYf41rCCGncAdOwNo5UeYJbg0lF6QEj4E';
-        const bot = new node_telegram_bot_api_1.default(token, { polling: true });
+        const bot = new node_telegram_bot_api_1.default(token, {
+            polling: { interval: 2000, params: { timeout: 10 } },
+        });
         bot.on('message', (msg) => __awaiter(this, void 0, void 0, function* () {
             const chatId = msg.chat.id;
             const text = msg.text;
             try {
                 const isTextFinancial = yield (0, promptSelector2_1.checkTextIntent)(text);
                 const recentSalary = yield (0, FinancialService_1.getMostRecentSalary)();
-                (0, console_1.log)(recentSalary, "Salary");
+                (0, console_1.log)(recentSalary, 'Salary');
                 (0, console_1.log)(isTextFinancial, '  Transaction');
                 if (isTextFinancial) {
                     const response = yield model.call([
