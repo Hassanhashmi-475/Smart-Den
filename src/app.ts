@@ -18,19 +18,14 @@ connectDB()
 
 app.use(express.json())
 
+setupReminderTelegramBot(app)
 
-   setupReminderTelegramBot(app)
- 
-
-  setupFinancialTelegramBot2(app)
-
-
+setupFinancialTelegramBot2(app)
 
 app.use('/api/recipe', isAuth, recipeRoutes)
 app.use('/api/user', userRoutes)
 app.use('/api/category', categoryRoutes)
 app.use('/api/reminder', reminderRoutes)
 app.use('/api/finance', financeRoutes)
-
 
 export default app

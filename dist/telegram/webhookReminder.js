@@ -32,6 +32,7 @@ function setupReminderTelegramBot(app) {
         // Set up Webhook
         const URI = `/webhook/${token}`;
         const webhookURL = `${process.env.PROD_URL}${URI}`;
+        (0, console_1.log)();
         bot.setWebHook(webhookURL);
         // Express route for handling webhook
         app.post(URI, (req, res) => {
