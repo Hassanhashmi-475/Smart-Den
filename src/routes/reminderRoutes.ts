@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import {
+  createReminder,
   deleteReminder,
   getListReminder,
   getMostRecentReminder,
@@ -11,12 +12,9 @@ const reminderRouter = Router()
 
 reminderRouter.get('/', getMostRecentReminder)
 reminderRouter.get('/list', getListReminder)
+reminderRouter.post('/add', createReminder)
 reminderRouter.get('/:id', getSpecificReminder)
 reminderRouter.patch('/:id', updatePriority)
 reminderRouter.delete('/:id', deleteReminder)
-
-// reminderRouter.post('/generate', generateRecipe)
-// reminderRouter.put('/:id', updateRecipe)
-// reminderRouter.delete('/:id', deleteRecipe)
 
 export default reminderRouter

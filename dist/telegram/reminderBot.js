@@ -25,6 +25,7 @@ const console_1 = require("console");
 (0, dotenv_1.config)();
 function setupTelegramBot() {
     const token = '6652658908:AAGbJX0AWZQuJI2GNHqGD0V5v8gollzrjCs';
+    // const token = '6909100407:AAEYf41rCCGncAdOwNo5UeYJbg0lF6QEj4E'
     const bot = new node_telegram_bot_api_1.default(token, { polling: true });
     bot.on('message', (msg) => __awaiter(this, void 0, void 0, function* () {
         const chatId = msg.chat.id;
@@ -60,7 +61,7 @@ To extract the due date, you can use JavaScript or a similar programming languag
                 bot.sendMessage(chatId, `Due Date saved to database successfully  ${reminder}`);
             }
             else {
-                bot.sendMessage(chatId, `Fazool msg hai bhosri wale mai ni save krrha `);
+                bot.sendMessage(chatId, `can't save this `);
             }
         }
         catch (error) {
@@ -84,4 +85,4 @@ To extract the due date, you can use JavaScript or a similar programming languag
     });
 }
 exports.setupTelegramBot = setupTelegramBot;
-//# sourceMappingURL=bot.js.map
+//# sourceMappingURL=reminderBot.js.map

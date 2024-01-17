@@ -11,7 +11,10 @@ import { log } from 'console'
 config()
 
 export function setupTelegramBot() {
-  const token = '6652658908:AAGbJX0AWZQuJI2GNHqGD0V5v8gollzrjCs'
+  const token = '6652658908:AAGbJX0AWZQuJI2GNHqGD0V5v8gollzrjCs' 
+
+  // const token = '6909100407:AAEYf41rCCGncAdOwNo5UeYJbg0lF6QEj4E'
+
   const bot = new TelegramBot(token, { polling: true })
 
   bot.on('message', async (msg: any) => {
@@ -40,7 +43,6 @@ To extract the due date, you can use JavaScript or a similar programming languag
         const output = await parser.parse(response.content)
         console.log(output, '  output<=============>')
         console.log(output.description, ' descriptiontle output<=============>')
-        
 
         const reminder = new Reminder({
           title: output.title,
@@ -57,7 +59,7 @@ To extract the due date, you can use JavaScript or a similar programming languag
           `Due Date saved to database successfully  ${reminder}`
         )
       } else {
-        bot.sendMessage(chatId, `Fazool msg hai bhosri wale mai ni save krrha `)
+        bot.sendMessage(chatId, `can't save this `)
       }
     } catch (error) {
       console.error(error)

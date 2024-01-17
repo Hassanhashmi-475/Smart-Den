@@ -1,16 +1,16 @@
 import mongoose, { Document, Schema } from 'mongoose'
 
 export interface IReminder extends Document {
-  username: string
-  text: string
-  sender: string
-  title: string
-  description: string
-  priority: boolean
-  group: boolean
-  createdAt: Date
+  username?: string
+  text?: string
+  sender?: string
+  title?: string
+  description?: string
+  priority?: boolean
+  group?: boolean
+  createdAt?: Date
   dueDate?: string
-  tags: string[]
+  tags?: string[]
 }
 
 const ReminderSchema: Schema<IReminder> = new mongoose.Schema(
