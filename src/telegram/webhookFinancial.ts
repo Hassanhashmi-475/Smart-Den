@@ -1,4 +1,4 @@
-import TelegramBot from 'node-telegram-bot-api'
+import TelegramBot, { Update } from 'node-telegram-bot-api'
 import { config } from 'dotenv'
 import { ChatOpenAI } from 'langchain/chat_models/openai'
 import { StructuredOutputParser } from 'langchain/output_parsers'
@@ -8,18 +8,31 @@ import Finance from '../models/Finance'
 import { checkTextIntent } from './selectors/promptSelector2'
 import { log } from 'console'
 import { getMostRecentSalary } from '../controllers/FinancialService'
+import express from 'express'
 
 config()
 
-export async function setupFinancialTelegramBot() {
+export async function setupFinancialTelegramBot2(
+  app: express.Application
+): Promise<TelegramBot> {
   const token = process.env.FINANCIAL_BOT_TOKEN
 
-
   const bot = new TelegramBot(token, {
-    polling: { interval: 2000, params: { timeout: 10 } },
+    polling: false,
   })
 
-  bot.on('message', async (msg: any) => {
+  // Set up Webhook
+  const URI = `/webhook/${token}`
+  const webhookURL = `${process.env.PROD_URL}${URI}`
+  bot.setWebHook(webhookURL)
+
+  app.post(URI, (req, res) => {
+    const update: Update = req.body
+    bot.processUpdate(update)
+    res.sendStatus(200)
+  })
+
+  bot.on('message', async (msg) => {
     const chatId = msg.chat.id
     const text = msg.text
 
@@ -35,7 +48,7 @@ export async function setupFinancialTelegramBot() {
             `   Please analyze the message if it is a credit or debit transaction(or some purchase or bill). 
                   current salary is : ${recentSalary}
                  If it is a credit transaction, add the amount to the current salary  . 
-                 If it is a debit transaction, subtract the amount from the current salary and mention the platform name also (online brand name,online shop name etc).
+                 If it is a debit transaction, subtract the amount from the current salary and mention the platform name also (online brand name, online shop name etc).
                  Platform can be a name of a bank also in case of 'credit'.
                  Amount will be the amount that is being credit or debited.
                  type is a string and should give output as 'debit' or 'credit'
@@ -47,7 +60,7 @@ export async function setupFinancialTelegramBot() {
 
         const output = await parser.parse(response.content)
         console.log(output, '  output<=============>')
-        // console.log(output.description, ' descriptiontle output<=============>')
+        // console.log(output.description, ' descriptiontle output<=============>');
 
         const finance = new Finance({
           platform: output.platform,
@@ -60,13 +73,14 @@ export async function setupFinancialTelegramBot() {
         await finance.save()
         bot.sendMessage(chatId, `   ${finance}`)
       } else {
-        bot.sendMessage(chatId, `Sorry could'nt save this. really sorry `)
+        bot.sendMessage(chatId, `Sorry couldn't save this. really sorry `)
       }
     } catch (error) {
       console.error(error)
     }
   })
 
+  // Additional setup for your chat model, parser, etc.
   const parser = StructuredOutputParser.fromZodSchema(
     z.object({
       type: z.string().refine((val) => typeof val === 'string', {
@@ -93,4 +107,6 @@ export async function setupFinancialTelegramBot() {
   const model = new ChatOpenAI({
     temperature: 0,
   })
+
+  return bot
 }

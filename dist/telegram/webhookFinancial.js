@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.setupFinancialTelegramBot = void 0;
+exports.setupFinancialTelegramBot2 = void 0;
 const node_telegram_bot_api_1 = __importDefault(require("node-telegram-bot-api"));
 const dotenv_1 = require("dotenv");
 const openai_1 = require("langchain/chat_models/openai");
@@ -24,11 +24,20 @@ const promptSelector2_1 = require("./selectors/promptSelector2");
 const console_1 = require("console");
 const FinancialService_1 = require("../controllers/FinancialService");
 (0, dotenv_1.config)();
-function setupFinancialTelegramBot() {
+function setupFinancialTelegramBot2(app) {
     return __awaiter(this, void 0, void 0, function* () {
         const token = process.env.FINANCIAL_BOT_TOKEN;
         const bot = new node_telegram_bot_api_1.default(token, {
-            polling: { interval: 2000, params: { timeout: 10 } },
+            polling: false,
+        });
+        // Set up Webhook
+        const URI = `/webhook/${token}`;
+        const webhookURL = `${process.env.PROD_URL}${URI}`;
+        bot.setWebHook(webhookURL);
+        app.post(URI, (req, res) => {
+            const update = req.body;
+            bot.processUpdate(update);
+            res.sendStatus(200);
         });
         bot.on('message', (msg) => __awaiter(this, void 0, void 0, function* () {
             const chatId = msg.chat.id;
@@ -43,7 +52,7 @@ function setupFinancialTelegramBot() {
                         new schema_1.SystemMessage(`   Please analyze the message if it is a credit or debit transaction(or some purchase or bill). 
                   current salary is : ${recentSalary}
                  If it is a credit transaction, add the amount to the current salary  . 
-                 If it is a debit transaction, subtract the amount from the current salary and mention the platform name also (online brand name,online shop name etc).
+                 If it is a debit transaction, subtract the amount from the current salary and mention the platform name also (online brand name, online shop name etc).
                  Platform can be a name of a bank also in case of 'credit'.
                  Amount will be the amount that is being credit or debited.
                  type is a string and should give output as 'debit' or 'credit'
@@ -53,7 +62,7 @@ function setupFinancialTelegramBot() {
                     ]);
                     const output = yield parser.parse(response.content);
                     console.log(output, '  output<=============>');
-                    // console.log(output.description, ' descriptiontle output<=============>')
+                    // console.log(output.description, ' descriptiontle output<=============>');
                     const finance = new Finance_1.default({
                         platform: output.platform,
                         type: output.type,
@@ -66,13 +75,14 @@ function setupFinancialTelegramBot() {
                     bot.sendMessage(chatId, `   ${finance}`);
                 }
                 else {
-                    bot.sendMessage(chatId, `Sorry could'nt save this. really sorry `);
+                    bot.sendMessage(chatId, `Sorry couldn't save this. really sorry `);
                 }
             }
             catch (error) {
                 console.error(error);
             }
         }));
+        // Additional setup for your chat model, parser, etc.
         const parser = output_parsers_1.StructuredOutputParser.fromZodSchema(zod_1.z.object({
             type: zod_1.z.string().refine((val) => typeof val === 'string', {
                 message: 'credit or debit',
@@ -94,7 +104,8 @@ function setupFinancialTelegramBot() {
         const model = new openai_1.ChatOpenAI({
             temperature: 0,
         });
+        return bot;
     });
 }
-exports.setupFinancialTelegramBot = setupFinancialTelegramBot;
-//# sourceMappingURL=financialBot.js.map
+exports.setupFinancialTelegramBot2 = setupFinancialTelegramBot2;
+//# sourceMappingURL=webhookFinancial.js.map

@@ -1,5 +1,4 @@
 import app from './app'
-import { checkTextIntent } from './telegram/selectors/promptSelector'
 
 const PORT = process.env.PORT || 3000
 

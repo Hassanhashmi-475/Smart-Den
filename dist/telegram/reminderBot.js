@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.setupTelegramBot = void 0;
+exports.setupReminderTelegramBot = void 0;
 const node_telegram_bot_api_1 = __importDefault(require("node-telegram-bot-api"));
 const dotenv_1 = require("dotenv");
 const openai_1 = require("langchain/chat_models/openai");
@@ -23,7 +23,7 @@ const Reminder_1 = __importDefault(require("../models/Reminder"));
 const promptSelector_1 = require("./selectors/promptSelector");
 const console_1 = require("console");
 (0, dotenv_1.config)();
-function setupTelegramBot() {
+function setupReminderTelegramBot() {
     const token = '6652658908:AAGbJX0AWZQuJI2GNHqGD0V5v8gollzrjCs';
     // const token = '6909100407:AAEYf41rCCGncAdOwNo5UeYJbg0lF6QEj4E'
     const bot = new node_telegram_bot_api_1.default(token, {
@@ -86,5 +86,5 @@ To extract the due date, you can use JavaScript or a similar programming languag
         temperature: 0,
     });
 }
-exports.setupTelegramBot = setupTelegramBot;
+exports.setupReminderTelegramBot = setupReminderTelegramBot;
 //# sourceMappingURL=reminderBot.js.map

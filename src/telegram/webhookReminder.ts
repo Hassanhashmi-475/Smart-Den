@@ -1,4 +1,4 @@
-import TelegramBot from 'node-telegram-bot-api'
+import TelegramBot, { Update } from 'node-telegram-bot-api'
 import { config } from 'dotenv'
 import { ChatOpenAI } from 'langchain/chat_models/openai'
 import { StructuredOutputParser } from 'langchain/output_parsers'
@@ -7,19 +7,32 @@ import { HumanMessage, SystemMessage } from 'langchain/schema'
 import Reminder from '../models/Reminder'
 import { checkTextIntent } from './selectors/promptSelector'
 import { log } from 'console'
+import express from 'express'
 
 config()
 
-export function setupReminderTelegramBot() {
-  const token = '6652658908:AAGbJX0AWZQuJI2GNHqGD0V5v8gollzrjCs'
-
-  // const token = '6909100407:AAEYf41rCCGncAdOwNo5UeYJbg0lF6QEj4E'
+export async function setupReminderTelegramBot(
+  app: express.Application
+): Promise<TelegramBot> {
+  const token = process.env.REMINDER_BOT_TOKEN
 
   const bot = new TelegramBot(token, {
-    polling: { interval: 2000, params: { timeout: 10 } },
+    polling: false,
   })
 
-  bot.on('message', async (msg: any) => {
+  // Set up Webhook
+  const URI = `/webhook/${token}`
+  const webhookURL = `${process.env.PROD_URL}${URI}`
+  bot.setWebHook(webhookURL)
+
+  // Express route for handling webhook
+  app.post(URI, (req, res) => {
+    const update: Update = req.body
+    bot.processUpdate(update)
+    res.sendStatus(200)
+  })
+
+  bot.on('message', async (msg) => {
     const chatId = msg.chat.id
     const text = msg.text
     console.log(msg, '  <=============>')
@@ -87,4 +100,6 @@ To extract the due date, you can use JavaScript or a similar programming languag
   const model = new ChatOpenAI({
     temperature: 0,
   })
+
+  return bot
 }
