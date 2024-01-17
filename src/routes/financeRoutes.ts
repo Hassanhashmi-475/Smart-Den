@@ -5,6 +5,7 @@ import {
   getExpensesOfGivenMonth,
   getFinanceById,
   getFinanceDocumentsOfGivenMonth,
+  getMostRecentSalary,
   updateFinance,
 } from '../controllers/FinancialService'
 
@@ -18,6 +19,7 @@ financeRouter.post('/add', createFinance)
 
 financeRouter.patch('/delete/:id', deleteFinance)
 
+financeRouter.get('/salary',getMostRecentSalary)
 financeRouter.get('/:id', getFinanceById)
 
 financeRouter.patch('/:id', updateFinance)

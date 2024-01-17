@@ -7,6 +7,7 @@ financeRouter.get('/', FinancialService_1.getFinanceDocumentsOfGivenMonth);
 financeRouter.get('/expense', FinancialService_1.getExpensesOfGivenMonth);
 financeRouter.post('/add', FinancialService_1.createFinance);
 financeRouter.patch('/delete/:id', FinancialService_1.deleteFinance);
+financeRouter.get('/salary', FinancialService_1.getMostRecentSalary);
 financeRouter.get('/:id', FinancialService_1.getFinanceById);
 financeRouter.patch('/:id', FinancialService_1.updateFinance);
 exports.default = financeRouter;
