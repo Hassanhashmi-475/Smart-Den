@@ -6,7 +6,7 @@ enum AdminRole {
 }
 
 
-interface IAdmin extends Document {
+interface IAdmin extends Document { 
   name?:string
   image?: string
   address?: string
