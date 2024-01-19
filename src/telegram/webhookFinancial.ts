@@ -25,9 +25,11 @@ export async function setupFinancialTelegramBot2(
   const URI = `/webhook/${token}`
   const webhookURL = `${process.env.PROD_URL}${URI}`
   bot.setWebHook(webhookURL)
-
+  
+  log()
   app.post(URI, (req, res) => {
     const update: Update = req.body
+    log(req.body, ' This is the body setup of webhook')
     bot.processUpdate(update)
     res.sendStatus(200)
   })

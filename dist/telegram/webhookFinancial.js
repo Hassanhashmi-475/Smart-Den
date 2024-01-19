@@ -34,8 +34,10 @@ function setupFinancialTelegramBot2(app) {
         const URI = `/webhook/${token}`;
         const webhookURL = `${process.env.PROD_URL}${URI}`;
         bot.setWebHook(webhookURL);
+        (0, console_1.log)();
         app.post(URI, (req, res) => {
             const update = req.body;
+            (0, console_1.log)(req.body, ' This is the body setup of webhook');
             bot.processUpdate(update);
             res.sendStatus(200);
         });

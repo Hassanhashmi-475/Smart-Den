@@ -32,12 +32,13 @@ function setupReminderTelegramBot(app) {
         // Set up Webhook
         const URI = `/webhook/${token}`;
         const webhookURL = `${process.env.PROD_URL}${URI}`;
-        (0, console_1.log)();
+        (0, console_1.log)(webhookURL, " Webhook URL");
+        (0, console_1.log)(URI, ' URI');
         bot.setWebHook(webhookURL);
-        // Express route for handling webhook
         app.post(URI, (req, res) => {
             const update = req.body;
             bot.processUpdate(update);
+            (0, console_1.log)(req.body, "  Body of webhook message");
             res.sendStatus(200);
         });
         bot.on('message', (msg) => __awaiter(this, void 0, void 0, function* () {

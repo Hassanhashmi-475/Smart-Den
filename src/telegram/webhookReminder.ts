@@ -23,13 +23,17 @@ export async function setupReminderTelegramBot(
   // Set up Webhook
   const URI = `/webhook/${token}`
   const webhookURL = `${process.env.PROD_URL}${URI}`
-  log()
-  bot.setWebHook(webhookURL)
+  log(webhookURL, " Webhook URL")
+  log(URI, ' URI')
 
-  // Express route for handling webhook
+
+  bot.setWebHook(webhookURL)
+    
+  
   app.post(URI, (req, res) => {
     const update: Update = req.body
     bot.processUpdate(update)
+    log(req.body,"  Body of webhook message")
     res.sendStatus(200)
   })
 
