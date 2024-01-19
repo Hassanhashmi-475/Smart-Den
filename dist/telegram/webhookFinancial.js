@@ -46,8 +46,11 @@ function setupFinancialTelegramBot2(app) {
             const chatId = msg.chat.id;
             const text = msg.text;
             (0, console_1.log)("Inside the bot message via bot.On");
+            (0, console_1.log)(text, " (   -> Text of the message in telegaram  ->");
             try {
+                (0, console_1.log)(" Inside try finance");
                 const isTextFinancial = yield (0, promptSelector2_1.checkTextIntent)(text);
+                (0, console_1.log)('After checking text   isTextFinancial');
                 const recentSalary = yield (0, FinancialService_1.getMostRecentSalary)();
                 (0, console_1.log)(recentSalary, ' Salary');
                 (0, console_1.log)(isTextFinancial, '  Transaction');

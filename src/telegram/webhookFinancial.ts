@@ -35,20 +35,23 @@ export async function setupFinancialTelegramBot2(
     bot.processUpdate(update)
     res.sendStatus(200)
   })
-
+ 
   bot.on('message', async (msg) => {
     const chatId = msg.chat.id
     const text = msg.text
 
     log("Inside the bot message via bot.On")
-
+    log(text, " (   -> Text of the message in telegaram  ->")
 
     try {
+    log(" Inside try finance")
+
       const isTextFinancial = await checkTextIntent(text)
+      log('After checking text   isTextFinancial')
       const recentSalary = await getMostRecentSalary()
       log(recentSalary, ' Salary')
 
-
+ 
       log(isTextFinancial, '  Transaction')
       if (isTextFinancial) {
         const response = await model.call([
