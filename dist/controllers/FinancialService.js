@@ -35,18 +35,15 @@ exports.getMostRecentSalary = getMostRecentSalary;
 function getRecentSalary(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            (0, console_1.log)('time');
             const mostRecentEntry = yield Finance_1.default.findOne({})
                 .sort({ timestamp: -1 })
                 .select('salary')
-                .lean();
-            (0, console_1.log)('time');
-            (0, console_1.log)(mostRecentEntry.salary);
+                .lean()
+                .exec();
             res.status(200).json((mostRecentEntry === null || mostRecentEntry === void 0 ? void 0 : mostRecentEntry.salary) || null);
         }
         catch (error) {
-            console.error('Error retrieving most recent salary:', error);
-            return null;
+            res.status(500).json({ error: 'Internal Server Error' });
         }
     });
 }

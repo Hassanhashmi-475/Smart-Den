@@ -4,7 +4,6 @@ const connectDB = async () => {
   try {
 const options = {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
   connectTimeoutMS: 10000, 
   
 }

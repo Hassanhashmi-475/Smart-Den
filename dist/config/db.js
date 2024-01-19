@@ -17,7 +17,6 @@ const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const options = {
             useNewUrlParser: true,
-            useUnifiedTopology: true,
             connectTimeoutMS: 10000,
         };
         yield mongoose_1.default.connect(process.env.MONGODB_URI, options);

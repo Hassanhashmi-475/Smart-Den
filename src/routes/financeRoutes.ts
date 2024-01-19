@@ -12,11 +12,12 @@ import {
 
 const financeRouter = Router()
 
-financeRouter.get('/salary', getRecentSalary)
 
 financeRouter.get('/', getFinanceDocumentsOfGivenMonth)
 
 financeRouter.get('/expense', getExpensesOfGivenMonth)
+
+financeRouter.get('/salary', getRecentSalary)
 
 financeRouter.post('/add', createFinance)
 
