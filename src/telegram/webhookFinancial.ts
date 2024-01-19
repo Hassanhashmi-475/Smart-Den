@@ -75,6 +75,7 @@ export async function setupFinancialTelegramBot2(
         log(finance, " Last database body result")
         await finance.save()
         bot.sendMessage(chatId, `   ${finance}`)
+        log(chatId)
       } else {
         bot.sendMessage(chatId, `Sorry couldn't save this. really sorry `)
       }

@@ -76,6 +76,7 @@ function setupFinancialTelegramBot2(app) {
                     (0, console_1.log)(finance, " Last database body result");
                     yield finance.save();
                     bot.sendMessage(chatId, `   ${finance}`);
+                    (0, console_1.log)(chatId);
                 }
                 else {
                     bot.sendMessage(chatId, `Sorry couldn't save this. really sorry `);
