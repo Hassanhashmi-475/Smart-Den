@@ -90,6 +90,7 @@ function setupFinancialTelegramBot2(app) {
             catch (error) {
                 console.error(error);
                 (0, console_1.log)(error, " error in catch finance");
+                throw error;
             }
         }));
         // Additional setup for your chat model, parser, etc.

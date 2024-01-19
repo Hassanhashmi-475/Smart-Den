@@ -91,6 +91,7 @@ export async function setupFinancialTelegramBot2(
     } catch (error) {
       console.error(error)
       log(error, " error in catch finance")
+      throw error
     }
   })
 

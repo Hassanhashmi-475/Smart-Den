@@ -18,17 +18,25 @@ const schema_1 = require("langchain/schema");
 (0, dotenv_1.config)();
 function checkTextIntent(text) {
     return __awaiter(this, void 0, void 0, function* () {
-        const model = new openai_1.ChatOpenAI({
-            temperature: 0,
-        });
-        const selector = yield model.call([
-            new schema_1.SystemMessage(`"Check if the text pertains to a finance-related transaction.If the text involves any financial transaction, whether debit, credit, or any finance-related activity, output 'true'; otherwise, output 'false'. The output should be in lowercase."
+        try {
+            const model = new openai_1.ChatOpenAI({
+                temperature: 0,
+            });
+            const selector = yield model.call([
+                new schema_1.SystemMessage(`"Check if the text pertains to a finance-related transaction.If the text involves any financial transaction, whether debit, credit, or any finance-related activity, output 'true'; otherwise, output 'false'. The output should be in lowercase."
 `),
-            new schema_1.HumanMessage(text),
-        ]);
-        const parser = output_parsers_1.StructuredOutputParser.fromZodSchema(zod_1.z.boolean());
-        const isEventOrOccasion = parser.parse(selector.content);
-        return isEventOrOccasion;
+                new schema_1.HumanMessage(text),
+            ]);
+            const parser = output_parsers_1.StructuredOutputParser.fromZodSchema(zod_1.z.boolean());
+            const isEventOrOccasion = parser.parse(selector.content);
+            return isEventOrOccasion;
+        }
+        catch (error) {
+            console.error('An error occurred while checking text intent:', error);
+            throw new Error('Error checking text intent');
+        }
+        {
+        }
     });
 }
 exports.checkTextIntent = checkTextIntent;
