@@ -34,7 +34,8 @@ function setupFinancialTelegramBot2(app) {
         const URI = `/webhook/${token}`;
         const webhookURL = `${process.env.PROD_URL}${URI}`;
         bot.setWebHook(webhookURL);
-        (0, console_1.log)();
+        (0, console_1.log)(webhookURL, ' Webhook URL in finance');
+        (0, console_1.log)(URI, ' URI in finance');
         app.post(URI, (req, res) => {
             const update = req.body;
             (0, console_1.log)(req.body, ' This is the body setup of webhook');
@@ -44,10 +45,11 @@ function setupFinancialTelegramBot2(app) {
         bot.on('message', (msg) => __awaiter(this, void 0, void 0, function* () {
             const chatId = msg.chat.id;
             const text = msg.text;
+            (0, console_1.log)("Inside the bot message via bot.On");
             try {
                 const isTextFinancial = yield (0, promptSelector2_1.checkTextIntent)(text);
                 const recentSalary = yield (0, FinancialService_1.getMostRecentSalary)();
-                (0, console_1.log)(recentSalary, 'Salary');
+                (0, console_1.log)(recentSalary, ' Salary');
                 (0, console_1.log)(isTextFinancial, '  Transaction');
                 if (isTextFinancial) {
                     const response = yield model.call([
@@ -73,7 +75,7 @@ function setupFinancialTelegramBot2(app) {
                         salary: output.salary,
                         text: text,
                     });
-                    (0, console_1.log)(finance, " Last database body result");
+                    (0, console_1.log)(finance, ' Last database body result');
                     yield finance.save();
                     bot.sendMessage(chatId, `   ${finance}`);
                     (0, console_1.log)(chatId);
@@ -84,6 +86,7 @@ function setupFinancialTelegramBot2(app) {
             }
             catch (error) {
                 console.error(error);
+                (0, console_1.log)(error, " error in catch finance");
             }
         }));
         // Additional setup for your chat model, parser, etc.

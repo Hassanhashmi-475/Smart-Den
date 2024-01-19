@@ -25,8 +25,10 @@ export async function setupFinancialTelegramBot2(
   const URI = `/webhook/${token}`
   const webhookURL = `${process.env.PROD_URL}${URI}`
   bot.setWebHook(webhookURL)
-  
-  log()
+
+  log(webhookURL, ' Webhook URL in finance')
+  log(URI, ' URI in finance')
+
   app.post(URI, (req, res) => {
     const update: Update = req.body
     log(req.body, ' This is the body setup of webhook')
@@ -38,10 +40,14 @@ export async function setupFinancialTelegramBot2(
     const chatId = msg.chat.id
     const text = msg.text
 
+    log("Inside the bot message via bot.On")
+
+
     try {
       const isTextFinancial = await checkTextIntent(text)
       const recentSalary = await getMostRecentSalary()
-      log(recentSalary, 'Salary')
+      log(recentSalary, ' Salary')
+
 
       log(isTextFinancial, '  Transaction')
       if (isTextFinancial) {
@@ -72,7 +78,7 @@ export async function setupFinancialTelegramBot2(
           salary: output.salary,
           text: text,
         })
-        log(finance, " Last database body result")
+        log(finance, ' Last database body result')
         await finance.save()
         bot.sendMessage(chatId, `   ${finance}`)
         log(chatId)
@@ -81,6 +87,7 @@ export async function setupFinancialTelegramBot2(
       }
     } catch (error) {
       console.error(error)
+      log(error, " error in catch finance")
     }
   })
 
