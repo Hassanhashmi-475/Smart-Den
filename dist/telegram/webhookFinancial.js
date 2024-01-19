@@ -73,6 +73,7 @@ function setupFinancialTelegramBot2(app) {
                         salary: output.salary,
                         text: text,
                     });
+                    (0, console_1.log)(finance, " Last database body result");
                     yield finance.save();
                     bot.sendMessage(chatId, `   ${finance}`);
                 }

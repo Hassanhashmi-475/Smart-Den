@@ -72,6 +72,7 @@ export async function setupFinancialTelegramBot2(
           salary: output.salary,
           text: text,
         })
+        log(finance, " Last database body result")
         await finance.save()
         bot.sendMessage(chatId, `   ${finance}`)
       } else {
