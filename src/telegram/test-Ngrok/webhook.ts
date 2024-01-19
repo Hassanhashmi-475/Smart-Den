@@ -29,7 +29,7 @@ export async function setupTelegramBot(
   app.post(URI, (req, res) => {
     const update: Update = req.body
     bot.processUpdate(update)
-    res.sendStatus(200)
+    res.sendStatus(200) 
   })
 
   bot.on('message', async (msg) => {
