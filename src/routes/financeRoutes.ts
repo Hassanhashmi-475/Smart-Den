@@ -1,31 +1,31 @@
-import { Router } from 'express'
+import { Router } from "express";
 import {
   createFinance,
   deleteFinance,
   getExpensesOfGivenMonth,
   getFinanceById,
+  getFinanceData,
   getFinanceDocumentsOfGivenMonth,
-
   getRecentSalary,
   updateFinance,
-} from '../controllers/FinancialService'
+} from "../controllers/FinancialService";
 
-const financeRouter = Router()
+const financeRouter = Router();
 
+financeRouter.get("/", getFinanceDocumentsOfGivenMonth);
 
-financeRouter.get('/', getFinanceDocumentsOfGivenMonth)
+financeRouter.get("/data", getFinanceData);
 
-financeRouter.get('/expense', getExpensesOfGivenMonth)
+financeRouter.get("/expense", getExpensesOfGivenMonth);
 
-financeRouter.get('/salary', getRecentSalary)
+financeRouter.get("/salary", getRecentSalary);
 
-financeRouter.post('/add', createFinance)
+financeRouter.post("/add", createFinance);
 
-financeRouter.patch('/delete/:id', deleteFinance)
+financeRouter.patch("/delete/:id", deleteFinance);
 
+financeRouter.get("/:id", getFinanceById);
 
-financeRouter.get('/:id', getFinanceById)
+financeRouter.patch("/:id", updateFinance);
 
-financeRouter.patch('/:id', updateFinance)
-
-export default financeRouter
+export default financeRouter;

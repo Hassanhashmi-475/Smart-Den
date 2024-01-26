@@ -41,6 +41,7 @@
     "@types/caseless": "^0.12.3",
     "@types/cors": "^2.8.17",
     "@types/node-telegram-bot-api": "^0.61.7",
+    "nodemon": "^3.0.3",
     "pre-commit": "^1.2.2",
     "rimraf": "^5.0.1"
   }

@@ -24,19 +24,18 @@ const promptSelector_1 = require("./selectors/promptSelector");
 const console_1 = require("console");
 (0, dotenv_1.config)();
 function setupReminderTelegramBot() {
-    const token = '6652658908:AAGbJX0AWZQuJI2GNHqGD0V5v8gollzrjCs';
-    // const token = '6909100407:AAEYf41rCCGncAdOwNo5UeYJbg0lF6QEj4E'
+    const token = process.env.REMINDER_BOT_TOKEN;
     const bot = new node_telegram_bot_api_1.default(token, {
         polling: { interval: 2000, params: { timeout: 10 } },
     });
-    bot.on('message', (msg) => __awaiter(this, void 0, void 0, function* () {
+    bot.on("message", (msg) => __awaiter(this, void 0, void 0, function* () {
         const chatId = msg.chat.id;
         const text = msg.text;
-        console.log(msg, '  <=============>');
+        console.log(msg, "  <=============>");
         try {
             const isTextEventOrOccasion = yield (0, promptSelector_1.checkTextIntent)(text);
             const currentDate = new Date();
-            (0, console_1.log)(isTextEventOrOccasion, '  Event');
+            (0, console_1.log)(isTextEventOrOccasion, "  Event");
             if (isTextEventOrOccasion) {
                 const response = yield model.call([
                     new schema_1.SystemMessage(`Specify the upcoming event from the data and time of the event? or place Which user has a meeting(any occasion) or anything else and at what time and for what purpose? Make a list. Your output should always be in the following format: ${formatInstructions}
@@ -48,14 +47,14 @@ To extract the due date, you can use JavaScript or a similar programming languag
                     new schema_1.HumanMessage(text),
                 ]);
                 const output = yield parser.parse(response.content);
-                console.log(output, '  output<=============>');
-                console.log(output.description, ' descriptiontle output<=============>');
+                console.log(output, "  output<=============>");
+                console.log(output.description, " descriptiontle output<=============>");
                 const reminder = new Reminder_1.default({
                     title: output.title,
                     description: output.description,
                     priority: false,
                     sender: `${msg.from.first_name}  ${msg.from.last_name}`,
-                    group: msg.chat.type === 'group' ? true : false,
+                    group: msg.chat.type === "group" ? true : false,
                     text: text,
                     dueDate: output.dueDate,
                 });
@@ -71,14 +70,14 @@ To extract the due date, you can use JavaScript or a similar programming languag
         }
     }));
     const parser = output_parsers_1.StructuredOutputParser.fromZodSchema(zod_1.z.object({
-        title: zod_1.z.string().refine((val) => typeof val === 'string', {
-            message: 'one main word for that upcoming event',
+        title: zod_1.z.string().refine((val) => typeof val === "string", {
+            message: "one main word for that upcoming event",
         }),
-        description: zod_1.z.string().refine((val) => typeof val === 'string', {
-            message: 'description of the event',
+        description: zod_1.z.string().refine((val) => typeof val === "string", {
+            message: "description of the event",
         }),
-        dueDate: zod_1.z.string().refine((val) => typeof val === 'string', {
-            message: 'due date of the upcoming event ',
+        dueDate: zod_1.z.string().refine((val) => typeof val === "string", {
+            message: "due date of the upcoming event ",
         }),
     }));
     const formatInstructions = parser.getFormatInstructions();
