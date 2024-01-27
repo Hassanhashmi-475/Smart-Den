@@ -270,6 +270,8 @@ function getFinanceData(req, res) {
             // Aggregation for the last four months
             const fourMonthsAgo = new Date(today);
             fourMonthsAgo.setMonth(today.getMonth() - 4);
+            fourMonthsAgo.setDate(1); // Set to the start of the month
+            console.log("fourMonthsAgo: ", fourMonthsAgo);
             const fourMonthsAggregationPipeline = [
                 { $match: getQuery(today, fourMonthsAgo, type) },
                 {
@@ -297,8 +299,14 @@ function getFinanceData(req, res) {
             const financeDataFourMonths = yield Finance_1.default.aggregate(fourMonthsAggregationPipeline);
             // Generate an array of months for the last four months
             const monthRange = generateMonthRange(today, fourMonthsAgo);
+            console.log("correct Month Range in Main function: ", monthRange);
+            console.log("financeDataFourMonths : ", financeDataFourMonths);
             const fourMonthsResult = fillMissingMonths(financeDataFourMonths, monthRange);
-            res.status(200).json({ week: weekResult, fourMonths: fourMonthsResult });
+            weekResult.pop();
+            fourMonthsResult.pop();
+            res
+                .status(200)
+                .json({ week: weekResult, fourMonthsExpense: fourMonthsResult });
         }
         catch (error) {
             console.error("Error retrieving finance data:", error);
@@ -353,6 +361,7 @@ function fillMissingMonths(data, monthRange) {
             result.push({ totalAmount: 0, timestamp: month });
         }
     }
+    console.log("result in filling missing months: ", result);
     return result;
 }
 // Function to check if two dates represent the same day
@@ -363,15 +372,16 @@ function isSameDay(date1, date2) {
 }
 // Function to check if two dates represent the same month
 function isSameMonth(date1, date2) {
-    return date1.getFullYear() === date2.getFullYear() && date1.getMonth() === date2.getMonth();
+    return (date1.getFullYear() === date2.getFullYear() &&
+        date1.getMonth() === date2.getMonth());
 }
 // Function to get the query for aggregation
 function getQuery(today, startDate, type) {
     return {
         type: type === "income" ? "credit" : "debit",
         timestamp: {
-            $gte: startDate,
-            $lte: today,
+            $gte: new Date(startDate.setHours(0, 0, 0, 0)),
+            $lte: new Date(today.setHours(23, 59, 59, 999)),
         },
     };
 }

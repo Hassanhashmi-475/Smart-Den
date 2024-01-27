@@ -306,14 +306,15 @@ async function getFinanceData(req: Request, res: Response): Promise<void> {
     // Generate an array of dates from today to 7 days ago
     const dateRange = generateDateRange(today, sevenDaysAgo);
 
-    const weekResult: { totalAmount: number; timestamp: Date }[] = fillMissingDates(
-      financeDataWeek,
-      dateRange
-    );
+    const weekResult: { totalAmount: number; timestamp: Date }[] =
+      fillMissingDates(financeDataWeek, dateRange);
 
     // Aggregation for the last four months
     const fourMonthsAgo = new Date(today);
     fourMonthsAgo.setMonth(today.getMonth() - 4);
+    fourMonthsAgo.setDate(1); // Set to the start of the month
+
+    console.log("fourMonthsAgo: ", fourMonthsAgo);
     const fourMonthsAggregationPipeline = [
       { $match: getQuery(today, fourMonthsAgo, type) },
       {
@@ -345,12 +346,18 @@ async function getFinanceData(req: Request, res: Response): Promise<void> {
     // Generate an array of months for the last four months
     const monthRange = generateMonthRange(today, fourMonthsAgo);
 
-    const fourMonthsResult: { totalAmount: number; timestamp: Date }[] = fillMissingMonths(
-      financeDataFourMonths,
-      monthRange
-    );
+    console.log("correct Month Range in Main function: ", monthRange);
+    console.log("financeDataFourMonths : ", financeDataFourMonths);
 
-    res.status(200).json({ week: weekResult, fourMonths: fourMonthsResult });
+    const fourMonthsResult: { totalAmount: number; timestamp: Date }[] =
+      fillMissingMonths(financeDataFourMonths, monthRange);
+
+    weekResult.pop();
+    fourMonthsResult.pop();
+
+    res
+      .status(200)
+      .json({ week: weekResult, fourMonthsExpense: fourMonthsResult });
   } catch (error) {
     console.error("Error retrieving finance data:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -369,7 +376,10 @@ function generateDateRange(endDate: Date, startDate: Date): Date[] {
 }
 
 // Function to fill missing dates with totalAmount: 0
-function fillMissingDates(data: { totalAmount: number; timestamp: Date }[], dateRange: Date[]): {
+function fillMissingDates(
+  data: { totalAmount: number; timestamp: Date }[],
+  dateRange: Date[]
+): {
   totalAmount: number;
   timestamp: Date;
 }[] {
@@ -390,18 +400,24 @@ function generateMonthRange(endDate: Date, startDate: Date): Date[] {
   const monthRange = [];
   let currentDate = new Date(endDate);
   while (currentDate >= startDate) {
-    monthRange.push(new Date(currentDate.getFullYear(), currentDate.getMonth(), 1));
+    monthRange.push(
+      new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)
+    );
     currentDate.setMonth(currentDate.getMonth() - 1);
   }
   return monthRange.reverse();
 }
 
 // Function to fill missing months with totalAmount: 0
-function fillMissingMonths(data: { totalAmount: number; timestamp: Date }[], monthRange: Date[]): {
+function fillMissingMonths(
+  data: { totalAmount: number; timestamp: Date }[],
+  monthRange: Date[]
+): {
   totalAmount: number;
   timestamp: Date;
 }[] {
   const result: { totalAmount: number; timestamp: Date }[] = [];
+
   for (const month of monthRange) {
     const existingData = data.find((d) => isSameMonth(d.timestamp, month));
     if (existingData) {
@@ -410,6 +426,7 @@ function fillMissingMonths(data: { totalAmount: number; timestamp: Date }[], mon
       result.push({ totalAmount: 0, timestamp: month });
     }
   }
+  console.log("result in filling missing months: ", result);
   return result;
 }
 
@@ -424,7 +441,10 @@ function isSameDay(date1: Date, date2: Date): boolean {
 
 // Function to check if two dates represent the same month
 function isSameMonth(date1: Date, date2: Date): boolean {
-  return date1.getFullYear() === date2.getFullYear() && date1.getMonth() === date2.getMonth();
+  return (
+    date1.getFullYear() === date2.getFullYear() &&
+    date1.getMonth() === date2.getMonth()
+  );
 }
 
 // Function to get the query for aggregation
@@ -432,8 +452,8 @@ function getQuery(today: Date, startDate: Date, type: string): any {
   return {
     type: type === "income" ? "credit" : "debit",
     timestamp: {
-      $gte: startDate,
-      $lte: today,
+      $gte: new Date(startDate.setHours(0, 0, 0, 0)),
+      $lte: new Date(today.setHours(23, 59, 59, 999)),
     },
   };
 }
