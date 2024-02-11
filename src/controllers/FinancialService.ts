@@ -192,6 +192,38 @@ async function updateFinance(req: Request, res: Response): Promise<void> {
       updatedFinanceData.type === "debit"
     ) {
       recentSalary -= existingFinanceDocument.amount;
+    } else if (
+      existingFinanceDocument.type === "debit" &&
+      updatedFinanceData.type === "debit" &&
+      existingFinanceDocument.amount > updatedFinanceData.amount
+    ) {
+      recentSalary =
+        recentSalary +
+        (existingFinanceDocument.amount - updatedFinanceData.amount);
+    } else if (
+      existingFinanceDocument.type === "debit" &&
+      updatedFinanceData.type === "debit" &&
+      existingFinanceDocument.amount < updatedFinanceData.amount
+    ) {
+      recentSalary =
+        recentSalary -
+        (updatedFinanceData.amount - existingFinanceDocument.amount);
+    } else if (
+      existingFinanceDocument.type === "credit" &&
+      updatedFinanceData.type === "credit" &&
+      existingFinanceDocument.amount > updatedFinanceData.amount
+    ) {
+      recentSalary =
+        recentSalary -
+        (existingFinanceDocument.amount - updatedFinanceData.amount);
+    } else if (
+      existingFinanceDocument.type === "credit" &&
+      updatedFinanceData.type === "credit" &&
+      existingFinanceDocument.amount < updatedFinanceData.amount
+    ) {
+      recentSalary =
+        recentSalary +
+        (updatedFinanceData.amount - existingFinanceDocument.amount);
     }
 
     updatedFinanceData.salary = recentSalary;

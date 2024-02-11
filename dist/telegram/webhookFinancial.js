@@ -55,7 +55,7 @@ function setupFinancialTelegramBot2(app) {
                 (0, console_1.log)(recentSalary, ' Salary');
                 (0, console_1.log)(isTextFinancial, '  Transaction');
                 if (isTextFinancial) {
-                    const response = yield model.call([
+                    const response = yield model.invoke([
                         new schema_1.SystemMessage(`   Please analyze the message if it is a credit or debit transaction(or some purchase or bill). 
                   current salary is : ${recentSalary}
                  If it is a credit transaction, add the amount to the current salary  . 

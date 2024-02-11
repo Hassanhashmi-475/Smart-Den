@@ -44,7 +44,7 @@ export async function setupReminderTelegramBot(
       const currentDate = new Date()
       log(isTextEventOrOccasion, '  Event')
       if (isTextEventOrOccasion) {
-        const response = await model.call([
+        const response : any = await model.invoke([
           new SystemMessage(
             `Specify the upcoming event from the data and time of the event? or place Which user has a meeting(any occasion) or anything else and at what time and for what purpose? Make a list. Your output should always be in the following format: ${formatInstructions}
 

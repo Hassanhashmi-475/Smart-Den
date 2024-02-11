@@ -30,7 +30,7 @@ export async function setupFinancialTelegramBot() {
 
       log(isTextFinancial, '  Transaction')
       if (isTextFinancial) {
-        const response = await model.call([
+        const response : any = await model.invoke([
           new SystemMessage(
             `   Please analyze the message if it is a credit or debit transaction(or some purchase or bill). 
                   current salary is : ${recentSalary}

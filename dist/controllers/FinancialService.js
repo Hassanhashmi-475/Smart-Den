@@ -165,6 +165,34 @@ function updateFinance(req, res) {
                 updatedFinanceData.type === "debit") {
                 recentSalary -= existingFinanceDocument.amount;
             }
+            else if (existingFinanceDocument.type === "debit" &&
+                updatedFinanceData.type === "debit" &&
+                existingFinanceDocument.amount > updatedFinanceData.amount) {
+                recentSalary =
+                    recentSalary +
+                        (existingFinanceDocument.amount - updatedFinanceData.amount);
+            }
+            else if (existingFinanceDocument.type === "debit" &&
+                updatedFinanceData.type === "debit" &&
+                existingFinanceDocument.amount < updatedFinanceData.amount) {
+                recentSalary =
+                    recentSalary -
+                        (updatedFinanceData.amount - existingFinanceDocument.amount);
+            }
+            else if (existingFinanceDocument.type === "credit" &&
+                updatedFinanceData.type === "credit" &&
+                existingFinanceDocument.amount > updatedFinanceData.amount) {
+                recentSalary =
+                    recentSalary -
+                        (existingFinanceDocument.amount - updatedFinanceData.amount);
+            }
+            else if (existingFinanceDocument.type === "credit" &&
+                updatedFinanceData.type === "credit" &&
+                existingFinanceDocument.amount < updatedFinanceData.amount) {
+                recentSalary =
+                    recentSalary +
+                        (updatedFinanceData.amount - existingFinanceDocument.amount);
+            }
             updatedFinanceData.salary = recentSalary;
             const updatedFinanceDocument = yield Finance_1.default.findByIdAndUpdate(financeId, updatedFinanceData, {
                 new: true,

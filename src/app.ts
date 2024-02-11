@@ -7,6 +7,7 @@ import recipeRoutes from "./routes/recipeRoutes";
 import userRoutes from "./routes/userRoutes";
 import categoryRoutes from "./routes/categoryRoutes";
 import reminderRoutes from "./routes/reminderRoutes";
+import jsonRoutes from "./routes/jsonRoutes";
 import financeRoutes from "./routes/financeRoutes";
 import { setupFinancialTelegramBot2 } from "./telegram/webhookFinancial";
 import { setupReminderTelegramBot } from "./telegram/webhookReminder";
@@ -32,5 +33,7 @@ app.use("/api/user", userRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/reminder", reminderRoutes);
 app.use("/api/finance", financeRoutes);
+app.use("/api/data", jsonRoutes);
+
 
 export default app;

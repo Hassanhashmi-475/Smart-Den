@@ -48,7 +48,7 @@ function setupReminderTelegramBot(app) {
                 const currentDate = new Date();
                 (0, console_1.log)(isTextEventOrOccasion, '  Event');
                 if (isTextEventOrOccasion) {
-                    const response = yield model.call([
+                    const response = yield model.invoke([
                         new schema_1.SystemMessage(`Specify the upcoming event from the data and time of the event? or place Which user has a meeting(any occasion) or anything else and at what time and for what purpose? Make a list. Your output should always be in the following format: ${formatInstructions}
 
 For example, if the user sends a message like 'We will meet after one week', please extract the due date by considering the current date ${currentDate} and adding one week to it. Include this due date in the list of upcoming events along with the event details.

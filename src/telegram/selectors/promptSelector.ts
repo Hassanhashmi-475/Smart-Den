@@ -11,7 +11,7 @@ export async function checkTextIntent(text: string): Promise<boolean> {
     temperature: 0,
   })
 
-  const selector = await model.call([
+  const selector : any = await model.call([
     new SystemMessage(
       `Check if the text pertains to an event or occasion: Text: ${text}. Give the output in boolean. If text pertains to an event or any type of occasion, then give the output in boolean 'true' else 'false'. Not 'True' or "False.Like in small letters`
     ),

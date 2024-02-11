@@ -12,7 +12,7 @@ export async function checkTextIntent(text: string): Promise<boolean> {
       temperature: 0,
     })
 
-    const selector = await model.call([
+    const selector : any = await model.call([
       new SystemMessage(
         `"Check if the text pertains to a finance-related transaction.If the text involves any financial transaction, whether debit, credit, or any finance-related activity, output 'true'; otherwise, output 'false'. The output should be in lowercase."
 `
