@@ -44,6 +44,9 @@ Hassan Hashmi of amount 3000 on Tue Sep 19 2023 00:00:00 GMT+0500 (Pakistan Stan
 Hassan Hashmi of amount 2000 on Tue Sep 19 2023 00:00:00 GMT+0500 (Pakistan Standard Time) .
 Hassan Hashmi of amount 1000 on Tue Sep 19 2023 00:00:00 GMT+0500 (Pakistan Standard Time) .
 Hassan Hashmi of amount 1000 on Wed Jan 24 2024 00:00:00 GMT+0500 (Pakistan Standard Time) .
+Debit Confirmation: Your Sadapay account has been charged Rs 9000 for online orders at Gourmet Delights. Your satisfaction is our priority. Feel free to reach out to our customer support for any assistance. Thank you of amount 9000 on Mon Feb 12 2024 00:52:53 GMT+0500 (Pakistan Standard Time) .
+Credit Confirmation: We are delighted to inform you that your Sadapay account has been credited with Rs 2000 as a refund for your recent online order at Gourmet Delights. Your satisfaction is our utmost priority, and we are committed to providing exceptional service. Should you require any further assistance, please do not hesitate to contact our dedicated customer support team. Thank you for choosing Sadapay! of amount 2000 on Fri Feb 16 2024 00:07:05 GMT+0500 (Pakistan Standard Time) .
+Credit Confirmation: We are delighted to inform you that your Sadapay account has been credited with Rs 3000 as a refund for your recent online order at Gourmet Delights. Your satisfaction is our utmost priority, and we are committed to providing exceptional service.Thank you for choosing Sadapay! of amount 3000 on Fri Feb 16 2024 00:09:38 GMT+0500 (Pakistan Standard Time) .
 
 Reminder Data:
  Sender is Hassan  Hashmi. Meeting title : Meeting,Description Meeting tomorrow at 5, Text message was undefined  .
@@ -83,3 +86,7 @@ Reminder Data:
  Sender is Hassan  Hashmi. Meeting title : Meeting,Description Meeting on 22 jn, Text message was Hi there, there is a meeting on 22 jn  .
  Sender is Hassan  Hashmi. Meeting title : Meeting with hass,Description Meeting on 22 jn ok then cddcsscd
 sdca achhh, Text message was Details are mentioned below in chart  .
+ Sender is Hassan  Hashmi. Meeting title : TEDx Event,Description Attending TEDx event, Text message was don't forget to attent the tedx event this sunday at 1pm  .
+ Sender is Hassan  Hashmi. Meeting title : Demo Video for Project,Description Make a demo video for the project, Text message was Hey don't forget to make a demo video for the project. It is due this sunday  .
+ Sender is Hassan  Hashmi. Meeting title : Meeting with Ali,Description Meeting with Ali this evening, Text message was i want to meet ali this evening remind me please  .
+ Sender is Hassan  Hashmi. Meeting title : Demo Video and Presentation,Description Create a demo video for the project and prepare a presentation, Text message was Hey don't forget to make a demo video for the project and presentation. It is due this sunday 11:59 pm.  .

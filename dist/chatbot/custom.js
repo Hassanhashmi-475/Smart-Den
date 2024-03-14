@@ -22,7 +22,6 @@ function loadedDataBot(req, res) {
             const embeddings = new openai_1.OpenAIEmbeddings();
             const vectorStore = yield faiss_1.FaissStore.load("./", embeddings);
             const model = new openai_1.ChatOpenAI({
-                modelName: "gpt-3.5-turbo",
                 temperature: 0.7,
                 //   verbose: true,
             });
@@ -37,7 +36,6 @@ function loadedDataBot(req, res) {
             const followUpRes = yield chain.call({
                 question: `${req.body.question}`,
             });
-            // console.log(followUpRes.text, " Follow up res");
             res.status(200).send(followUpRes.text);
         }
         catch (error) {

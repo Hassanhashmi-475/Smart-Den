@@ -86,6 +86,7 @@ To extract the due date, you can use JavaScript or a similar programming languag
   const formatInstructions = parser.getFormatInstructions();
 
   const model = new ChatOpenAI({
+  
     temperature: 0,
   });
 }

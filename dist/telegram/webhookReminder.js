@@ -36,7 +36,7 @@ function setupReminderTelegramBot(app) {
         app.post(URI, (req, res) => {
             const update = req.body;
             bot.processUpdate(update);
-            (0, console_1.log)(req.body, '  Body of webhook message');
+            // log(req.body, '  Body of webhook message')
             res.sendStatus(200);
         });
         bot.on('message', (msg) => __awaiter(this, void 0, void 0, function* () {
@@ -70,7 +70,7 @@ To extract the due date, you can use JavaScript or a similar programming languag
                         dueDate: output.dueDate,
                     });
                     yield reminder.save();
-                    bot.sendMessage(chatId, `Due Date saved to database successfully  ${reminder}`);
+                    bot.sendMessage(chatId, ` Saved successfully  ${reminder}`);
                 }
                 else {
                     bot.sendMessage(chatId, `can't save this `);
