@@ -5,7 +5,7 @@ import User,{IUser} from '../models/User'
 import { signInToken } from '../config/Auth'
 import { log } from 'console'
 
-const registerUser = async (req: any, res: any) => {
+const registerUser = async (req: any, res: any) => { 
   try {
     const { name, email, password }= req.body
 
