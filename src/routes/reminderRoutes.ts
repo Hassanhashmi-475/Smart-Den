@@ -6,7 +6,7 @@ import {
   getMostRecentReminder,
   getSpecificReminder,
   updatePriority,
-} from '../controllers/ReminderService'
+} from '../controllers/ReminderService' 
 
 const reminderRouter = Router()
 
