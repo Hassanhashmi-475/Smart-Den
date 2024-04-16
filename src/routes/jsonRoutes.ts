@@ -8,10 +8,10 @@ import { runnableSequenceBot } from '../chatbot/anthropic'
 
 const jsonRouter = Router()
 
+jsonRouter.post('/runnable', runnableSequenceBot)
 jsonRouter.post('/rag', loadedDataBot2)
 jsonRouter.get('/loadvector', chatbot)
 jsonRouter.post('/testing', loadedDataBot)
-jsonRouter.post('/runnable', runnableSequenceBot)
 jsonRouter.get('/loadfile', getFinance)
 
 
